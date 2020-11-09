@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Feedbacks 
 
 It is simplest Single Page Application. It uses Node.js, Vue+Bootstrap, Vue-Route Express, PostgresQL etc. 
@@ -32,3 +33,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# feedbacks-frontend
+>>>>>>> 765a441d... Update README.md
