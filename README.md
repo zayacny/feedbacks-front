@@ -8,7 +8,7 @@ This how it looks like(with mobile view include) :
 <img src="public/img/screen_3.png" width="31%" height="auto" />
 </p>
 
-There is DB realize through "node-postgres".
+There is DB realize through "node-postgres" .
 
 ## Project setup
 ```
