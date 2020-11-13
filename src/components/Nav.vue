@@ -33,18 +33,24 @@
 </template>
 
 <script>
+  
   export default {
     data () {
       return {
        
       }
     }
+  //   ,
+  // methods: {
+  //   fetchFeedbacks() {
+  //     getFeedbacks().rows
+  //     console.log('fetch feedbacks')
+  //   }
+  // }
+
   }
 </script>
 
 <style scoped>
-b-nav-item:hover {
-border-color: yellow;
-background-color: gold;
-}
+
 </style>

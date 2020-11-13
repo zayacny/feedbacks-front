@@ -3,28 +3,36 @@ import Vuex from 'vuex'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import { saveFeedback } from '@/services/feedbacks.js'
+// import { getFeedbacks } from '@/services/feedbacks.js'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(Vuex)
-// saveFeedback(userName)
+
 export default new Vuex.Store({
   state: {
-    updateKey: false
+    rowsFeedbacks: []
   },
   mutations: { // here we do something with state
-    updateOne (state) {
-      state.updateKey = !state.updateKey
+    nmaeFeunc (state, data) {
+      console.log('MUTATION have been done')
+    },
+    setFeedbacks (state, data) {
+      state.rowsFeedbacks = data.rows;
     }
+
   },
-  actions: { // from here we will dispatch what we need to do
-    // must content logic with {mutations}?
-    // here do commit
-    updateOne (context) {
-      context.commit('updateOne')
+  actions: {
+    nmaeFeunc () {
+      console.log('ACTION have been done')
+    },
+    // getFeedbacks GET
+    async getFeedbacks ({ commit }) {
+      const { data } = await axios.get('http://localhost:3000/feedbacks')
+      commit('setFeedbacks', data);
     }
   },
   modules: {
+
   }
 })

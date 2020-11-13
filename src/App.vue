@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="text-center">
-      <h1>Feedback</h1>
+      <h1>F e e d b a c k s</h1>
       <b-icon icon="camera" font-scale="3"></b-icon>
       <Nav/>
     </div>

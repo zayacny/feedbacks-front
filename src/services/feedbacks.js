@@ -8,16 +8,22 @@ const saveUser = async (oneFeedback) => {
   return data
 }
 // additionFeedback POST
-const additionFeedback = (oneFeedback) => {
-  const { data } = axios.post('http://localhost:3000/feedbacks', { oneFeedback })
+const additionFeedback = async (oneFeedback) => {
+  const { data } = await axios.post('http://localhost:3000/feedbacks', { oneFeedback })
   console.log('services/ additionFeedback()', oneFeedback)
   return data
 }
 // getFeedbacks GET
+const getFeedbacks = async () => {
+  const { data } = await axios.get('http://localhost:3000/feedbacks')
+  return data
+}
+
 // saveUserForm POST
 // editUserForm PUT
 
 export {
   saveUser,
-  additionFeedback
+  additionFeedback,
+  getFeedbacks
 }
