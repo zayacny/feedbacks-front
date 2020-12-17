@@ -4,7 +4,6 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
-// import { getFeedbacks } from '@/services/feedbacks.js'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
@@ -15,7 +14,7 @@ export default new Vuex.Store({
     rowsFeedbacks: []
   },
 
-  mutations: { // here we do something with state via commit('some-mutation')
+  mutations: {
     setFeedbacks (state, data) {
       state.rowsFeedbacks = data
       console.log('setFeedbacks to rowsFeedbacks[]   {/mutations/STORE} done  ', this.state.rowsFeedbacks)
@@ -26,20 +25,33 @@ export default new Vuex.Store({
     // getFeedbacks GET
     async getFeedbacks ({ commit }) {
       const { data } = await axios.get('http://localhost:3000/allfeedbacks')
-      console.log('response from server actions/store : ', data)
       commit('setFeedbacks', data)
     },
-    // additionFeedback POST
-    async oneFeedback (feedback) {
+    // write feedback POST
+    async writeFeedback (state, feedback) {
       const { data } = await axios.post('http://localhost:3000/feedbacks', { feedback })
       console.log('additionFeedback() done : ', feedback)
       return data
     },
-    // saveUser  POST
-    async saveUser (feedback) {
-      console.log('services/ saveUser()  ', feedback.userName)
-      const { data } = await axios.post('http://localhost:3000/feeduser', { name: feedback.userName })
-      console.log('Saved User : ', data)
+    // save photo POST
+    async savePhoto (state, fileImg) {
+      var formData = new FormData()
+      formData.append('fileImg', fileImg)
+      const { data } = await axios.post('http://localhost:3000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      return data
+    },
+    // save User  POST
+    async saveUser (state, feedback) {
+      const { data } = await axios.post('http://localhost:3000/users', { name: feedback.userName })
+      return data
+    },
+    // save Company POST
+    async saveCompany (state, feedback) {
+      const { data } = await axios.post('http://localhost:3000/company', { name: feedback.orgName, address: feedback.address })
       return data
     }
   },

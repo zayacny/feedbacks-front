@@ -48,6 +48,22 @@
             </div>
          </b-col>
       </b-row>
+      <b-row>
+         <b-col sm="3">
+            <label for="input-valid">Please, load Photo from that place :</label>
+         </b-col>
+         <b-col sm="9">
+            <div>
+              <b-form-file 
+               size = "sm"
+               v-model="fileImg"
+               :state="Boolean(fileImg)"
+               placeholder="Click here for choose"
+               accept=".jpg, .png, .gif, jpeg">   
+               </b-form-file>
+            </div>
+         </b-col>
+      </b-row>
       <div class="text-center">
          <b-form-rating class="mt-3" 
             v-model="rate" 
@@ -64,9 +80,8 @@
       </div>
    </b-container>
 </template>
-
 <script>
-import { saveUser, additionFeedback } from '@/services/feedbacks.js'
+import { mapActions } from 'vuex'
 export default {
   data(){
     return {
@@ -75,22 +90,28 @@ export default {
       feedbackText:'',
       address: '',
       date: Date,
-      rate: null
+      rate: null,
+      fileImg: null
     }
   },
   methods: {
-    saveForm(){
+     ...mapActions(['saveUser', 'writeFeedback', 'savePhoto', 'saveCompany', 'fetchIdCompany']),
+
+    async saveForm(){
+      const filename_img = await this.savePhoto(this.fileImg)
       const oneFeedback = {
         userName: this.userName,
-        orgName: this.orgName,
+        orgName: this.orgName ,
+        id_company: 0,
         feedbackText: this.feedbackText,
         address: this.address,
         date: this.date,
-        rate: this.rate
+        rate: this.rate,
+        filename_img: filename_img
       }
-      console.log('form.vue : Press SaveForm')
-      saveUser( oneFeedback )
-      additionFeedback(oneFeedback)
+      await this.saveUser(oneFeedback)
+      oneFeedback.id_company = await this.saveCompany(oneFeedback)
+      this.writeFeedback(oneFeedback)
     }
   }
 }
