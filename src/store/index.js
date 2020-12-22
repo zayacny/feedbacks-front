@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import {
+  BootstrapVue,
+  IconsPlugin
+} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
@@ -17,8 +20,22 @@ export default new Vuex.Store({
   mutations: {
     setFeedbacks (state, data) {
       state.rowsFeedbacks = data
-      console.log('setFeedbacks to rowsFeedbacks[]   {/mutations/STORE} done  ', this.state.rowsFeedbacks)
+      console.log('mutation setFeedbacls commit!  ')
     }
+    // addCompanyData (state, data) {
+    //   state.rowsFeedbacks.map(function (item) {
+    //     for (let i = 0; i < data.length; i++) {
+    //       const element = data[i]
+    //       if (element.id === item.id_company) {
+    //         item.orgName = element.name
+    //         item.address = element.address
+    //       }
+    //     }
+    //   })
+    //   state.rowsFeedbacks.push(state.rowsFeedbacks[4])
+    //   console.log('mutation addCompany commit')
+    //   console.table(state.rowsFeedbacks)
+    // }
   },
 
   actions: {
@@ -27,9 +44,18 @@ export default new Vuex.Store({
       const { data } = await axios.get('http://localhost:3000/allfeedbacks')
       commit('setFeedbacks', data)
     },
+    // GET name and address of company
+    // async getCompany ({ commit }) {
+    //   const { data } = await axios.get('http://localhost:3000/companies')
+    //   commit('addCompanyData', data)
+    // },
     // write feedback POST
     async writeFeedback (state, feedback) {
-      const { data } = await axios.post('http://localhost:3000/feedbacks', { feedback })
+      const {
+        data
+      } = await axios.post('http://localhost:3000/feedbacks', {
+        feedback
+      })
       console.log('additionFeedback() done : ', feedback)
       return data
     },
@@ -37,7 +63,9 @@ export default new Vuex.Store({
     async savePhoto (state, fileImg) {
       var formData = new FormData()
       formData.append('fileImg', fileImg)
-      const { data } = await axios.post('http://localhost:3000/upload', formData, {
+      const {
+        data
+      } = await axios.post('http://localhost:3000/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -46,18 +74,30 @@ export default new Vuex.Store({
     },
     // save User  POST
     async saveUser (state, feedback) {
-      const { data } = await axios.post('http://localhost:3000/users', { name: feedback.userName })
+      const {
+        data
+      } = await axios.post('http://localhost:3000/users', {
+        name: feedback.userName
+      })
       return data
     },
     // save Company POST
     async saveCompany (state, feedback) {
-      const { data } = await axios.post('http://localhost:3000/company', { name: feedback.orgName, address: feedback.address })
+      const {
+        data
+      } = await axios.post('http://localhost:3000/company', {
+        name: feedback.orgName,
+        address: feedback.address
+      })
       return data
     }
   },
   getters: {
     getCountFeedbacks (state) {
       return state.rowsFeedbacks.length
+    },
+    updFeedbacks(state) {
+      return state.rowsFeedbacks
     }
   }
 })
