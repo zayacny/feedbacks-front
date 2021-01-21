@@ -1,5 +1,5 @@
 <template>
-<div class="HomePage text-center">
+<b-container>
     <h1> 
       Lorem ipsum dolor sit amet consectetu 
     </h1>
@@ -12,7 +12,7 @@
         big Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia pariatur autem tempore dolores, harum nihil necessitatibus? Autem eos quaerat commodi ducimus odit neque modi! Harum quod illum sint non quaerat?
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate culpa, amet saepe eligendi modi placeat omnis.
         big</p>
-      <b-img  src="https://picsum.photos/500/500/" fluid>
+      <b-img class="" src="https://picsum.photos/500/500/" fluid>
       </b-img>  
-  </div>
+</b-container>
  </template>

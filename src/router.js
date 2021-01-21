@@ -26,6 +26,22 @@ export default new VueRouter({
     {
       path: '/allfeedbacks',
       component: () => import('./components/AllFeedbacks')
+    },
+    {
+      path: '/authentication',
+      component: () => import('./components/Authentication')
+    },
+    {
+      path: '/registration',
+      component: () => import('./components/Registration')
+    },
+    {
+      path: '/recover',
+      component: () => import('./components/Recover')
+    },
+    {
+      path: '/recover/:token',
+      component: () => import('./components/NewPass')
     }
   ]
 })
