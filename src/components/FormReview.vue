@@ -5,7 +5,7 @@
             <label for="name">Your full name :</label>
          </b-col>
          <b-col sm="9">
-            <b-form-input id="name" :state="null" v-model="userName" placeholder="example: John Smith"></b-form-input>
+            <b-form-input id="name" :state="null" v-model="user.userName" placeholder="example: John Smith"></b-form-input>
          </b-col>
       </b-row>
       <b-row>
@@ -13,7 +13,7 @@
             <label for="input-valid">What is Feedback about :</label>
          </b-col>
          <b-col sm="9">
-            <b-form-input id="input-valid" v-model="orgName" :state="null" placeholder="Place or Company"></b-form-input>
+            <b-form-input id="input-valid" v-model="user.orgName" :state="null" placeholder="Place or Company"></b-form-input>
          </b-col>
       </b-row>
       <b-row>
@@ -21,7 +21,7 @@
             <label for="address">Address of organization :</label>
          </b-col>
          <b-col sm="9">
-            <b-form-input id="address" v-model="address" :state="null" placeholder="Write here">
+            <b-form-input id="address" v-model="user.address" :state="null" placeholder="Write here">
             </b-form-input>
          </b-col>
       </b-row>
@@ -32,8 +32,8 @@
          <b-col sm="3">
             <b-form-textarea
                id="textarea-state"
-               v-model="feedbackText"
-               :state="feedbackText.length >= 50"
+               v-model="user.feedbackText"
+               :state="user.feedbackText.length >= 50"
                placeholder="Enter at least 50 characters"
                rows="3">
             </b-form-textarea>
@@ -43,7 +43,7 @@
          </b-col>
          <b-col sm="3">
             <div>
-               <b-form-datepicker id="datepicker" v-model="date" class="mb-2">
+               <b-form-datepicker id="datepicker" v-model="user.date" class="mb-2">
                </b-form-datepicker>
             </div>
          </b-col>
@@ -56,8 +56,8 @@
             <div>
               <b-form-file 
                size = "sm"
-               v-model="fileImg"
-               :state="Boolean(fileImg)"
+               v-model="user.fileImg"
+               :state="Boolean(user.fileImg)"
                placeholder="Click here for choose"
                accept=".jpg, .png, .gif, jpeg">   
                </b-form-file>
@@ -66,7 +66,7 @@
       </b-row>
       <div class="text-center">
          <b-form-rating class="mt-3" 
-            v-model="rate" 
+            v-model="user.rate" 
             color="orange" 
             stars="10" 
             show-value 
@@ -85,13 +85,15 @@ import { mapActions } from 'vuex'
 export default {
   data(){
     return {
-      userName: '',
-      orgName: '',
-      feedbackText:'',
-      address: '',
-      date: Date,
-      rate: null,
-      fileImg: null
+       user: {
+         userName: '',
+         orgName: '',
+         feedbackText:'',
+         address: '',
+         date: Date,
+         rate: null,
+         fileImg: null
+       }
     }
   },
   methods: {
@@ -100,13 +102,8 @@ export default {
     async saveForm(){
       const filename_img = await this.savePhoto(this.fileImg)
       const oneFeedback = {
-        userName: this.userName,
-        orgName: this.orgName ,
+        ...this.user,
         id_company: 0,
-        feedbackText: this.feedbackText,
-        address: this.address,
-        date: this.date,
-        rate: this.rate,
         filename_img: filename_img
       }
       await this.saveUser(oneFeedback)

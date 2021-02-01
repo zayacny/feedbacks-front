@@ -12,7 +12,6 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
-window.localStorage.removeItem('accessToken')
 new Vue({
   store,
   router,

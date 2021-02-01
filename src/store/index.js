@@ -16,7 +16,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     rowsFeedbacks: [],
-    token: ''
+    token: '',
+    login: false
   },
 
   mutations: {
@@ -24,8 +25,11 @@ export default new Vuex.Store({
       state.rowsFeedbacks = data
       console.log('mutation setFeedbacls commit!  ')
     },
-    setToken (state, data) {
-      state.token = `${data}`
+    setToken (state) {
+      state.token = window.localStorage.getItem('accessToken')
+    },
+    setLogin (state) {
+      state.login = true
     }
   },
 
@@ -55,12 +59,6 @@ export default new Vuex.Store({
       return data
     },
 
-    // fetch email for recover
-    async fetchEmailUser (state, token) {
-      const { data } = await axios.post('http://localhost:3000/email', { token })
-      return data
-    },
-
     // save User  POST
     async saveUser (state, feedback) {
       const { data } = await axios.post('http://localhost:3000/users', { name: feedback.userName })
@@ -73,7 +71,7 @@ export default new Vuex.Store({
       hesh.update(payload.pass)
       const hashPass = hesh.digest('hex')
       const { data } = await axios.post('http://localhost:3000/users/upd', { pass: hashPass, email: payload.email })
-      return data
+      return data.status
     },
 
     // save Company POST
@@ -82,7 +80,7 @@ export default new Vuex.Store({
       return data
     },
 
-    // authentication POST
+    // log in POST
     async logIn ({ commit }, userData) {
       const hesh = crypto.createHash('sha1')
       hesh.update(userData.pass)
@@ -90,12 +88,19 @@ export default new Vuex.Store({
       const { data } = await axios.post('http://localhost:3000/login', { name: userData.name, email: userData.email, pass: hashPass })
 
       if (data) {
-        window.localStorage.setItem('accessToken', `${data}`)
-        commit('setToken', data)
+        window.localStorage.setItem('accessToken', `${data.accessToken}`)
+        commit('setToken')
+        commit('setLogin')
         return true
-      } else {
-        return false
       }
+      return false
+    },
+
+    // log out
+    async logOut (state) {
+      state.login = false
+      window.localStorage.setItem('accessToken', '')
+      return true
     },
 
     // registration POST
@@ -111,6 +116,12 @@ export default new Vuex.Store({
     async forgotPass (state, email) {
       const { data } = await axios.post('http://localhost:3000/recover', { email: email })
       return data
+    },
+
+    // fetch email for recover
+    async fetchEmailUser (state, token) {
+      const { data } = await axios.post('http://localhost:3000/email', { token })
+      return data
     }
   },
 
@@ -118,11 +129,11 @@ export default new Vuex.Store({
     getCountFeedbacks (state) {
       return state.rowsFeedbacks.length
     },
-    updFeedbacks (state) {
+    getFeedbacks (state) {
       return state.rowsFeedbacks
     },
     getToken (state) {
-      return state.token // ?? accessToken
+      return state.token
     }
   }
 })

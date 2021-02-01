@@ -3,7 +3,7 @@
     <b-form-group style="width: 500px"  >
       <p class="text-center my-3"> For recover password, please enter your email</p>
       E-Mail : 
-      <b-form-input class="mb-2" :placeholder="email" v-model="email"> </b-form-input>
+      <p class="mb-2">{{email}} </p>
       New Password :
       <b-form-input class="mb-2" v-model="newPass"> </b-form-input>
       Repeat password : 
@@ -15,8 +15,8 @@
 <script>
 export default {
   async created() {
-    console.log('token route params 1 ::: ', this.$route.params.token)
-    this.email = await this.$store.dispatch('fetchEmailUser', this.$route.params.token)
+    const result = await this.$store.dispatch('fetchEmailUser', this.$route.params.token)
+    this.email = result.userEmail
   },
   data () {
     return {
@@ -26,12 +26,15 @@ export default {
     }
   },
   methods: {
-    saveNewPass() {
+    async saveNewPass() {
       if (this.newPass===this.newPassRepeat) {  // here might be another solution(maybe via v-model)
         const userData = { email: this.email, pass: this.newPass }
-        this.$store.dispatch('updateUser', userData)
+        const result = await this.$store.dispatch('updateUser', userData)
+        if(result=='success') { 
+          alert('Allright! Your password have been saved.')
+        }
+        alert('Pass not saved. Please try again later.')
       }
-      
    }
   }
 }

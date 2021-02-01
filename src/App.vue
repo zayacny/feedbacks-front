@@ -18,7 +18,6 @@ import Nav from './components/Nav'
 import Content from './components/Content'
 
 export default {
-  
   name: 'App',
   components: {
        Nav,
