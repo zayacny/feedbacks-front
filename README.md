@@ -8,7 +8,7 @@ This how it looks like(with mobile view include) :
 <img src="public/img/Screenshot_3.png" width="31%" height="auto" />
 </p>
 
-There is DB realize through "node-postgres" .
+DB is implemented with "node-postgres" .
 
 ## Project setup
 ```
